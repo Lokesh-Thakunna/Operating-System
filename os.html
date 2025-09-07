@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantumOS</title>
+    <link rel="stylesheet" href="os.css">
+</head>
+
+<body>
+   
+    <div class="boot-screen" id="bootScreen">
+        <div class="boot-logo">⚡ QuantumOS</div>
+        <div>Starting up...</div>
+        <div class="boot-progress">
+            <div class="boot-progress-bar" id="bootProgressBar"></div>
+        </div>
+    </div>
+
+    
+    <div class="desktop" id="desktop">
+       
+        <div class="desktop-icon" style="top: 50px; left: 50px;" onclick="openWindow('fileExplorer')">
+            <div class="icon">📁</div>
+            <div class="label">File Explorer</div>
+        </div>
+
+        <div class="desktop-icon" style="top: 50px; left: 150px;" onclick="openWindow('terminal')">
+            <div class="icon">💻</div>
+            <div class="label">Terminal</div>
+        </div>
+
+        <div class="desktop-icon" style="top: 50px; left: 250px;" onclick="openWindow('calculator')">
+            <div class="icon">🔢</div>
+            <div class="label">Calculator</div>
+        </div>
+
+        <div class="desktop-icon" style="top: 150px; left: 50px;" onclick="openWindow('taskManager')">
+            <div class="icon">📊</div>
+            <div class="label">Task Manager</div>
+        </div>
+
+        <div class="desktop-icon" style="top: 150px; left: 150px;" onclick="openWindow('settings')">
+            <div class="icon">⚙️</div>
+            <div class="label">Settings</div>
+        </div>
+    </div>
+
+    
+    <div class="taskbar">
+        <button class="start-button" onclick="toggleStartMenu()">⚡</button>
+        <div class="taskbar-apps" id="taskbarApps"></div>
+        <div class="system-tray">
+            <span id="systemTime"></span>
+            <span>🔊 🔋 📶</span>
+        </div>
+    </div>
+
+   
+    <div class="start-menu" id="startMenu">
+        <h3 style="margin-bottom: 20px;">Applications</h3>
+        <div class="start-menu-item" onclick="openWindow('fileExplorer')">
+            <span>📁</span> File Explorer
+        </div>
+        <div class="start-menu-item" onclick="openWindow('terminal')">
+            <span>💻</span> Terminal
+        </div>
+        <div class="start-menu-item" onclick="openWindow('calculator')">
+            <span>🔢</span> Calculator
+        </div>
+        <div class="start-menu-item" onclick="openWindow('taskManager')">
+            <span>📊</span> Task Manager
+        </div>
+        <div class="start-menu-item" onclick="openWindow('settings')">
+            <span>⚙️</span> Settings
+        </div>
+        <div class="start-menu-item" onclick="showNotification('Shutting down QuantumOS...', 'info')">
+            <span>🔴</span> Shutdown
+        </div>
+    </div>
+
+    
+    <div class="window" id="fileExplorer" style="top: 100px; left: 100px; width: 700px; height: 500px;">
+        <div class="window-header">
+            <span>📁 File Explorer</span>
+            <div class="window-controls">
+                <div class="window-control minimize" onclick="minimizeWindow('fileExplorer')">−</div>
+                <div class="window-control maximize" onclick="maximizeWindow('fileExplorer')">□</div>
+                <div class="window-control close" onclick="closeWindow('fileExplorer')">×</div>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="file-explorer">
+                <div class="file-sidebar">
+                    <div class="file-item" onclick="navigateToFolder('Desktop')">🖥️ Desktop</div>
+                    <div class="file-item" onclick="navigateToFolder('Documents')">📄 Documents</div>
+                    <div class="file-item" onclick="navigateToFolder('Downloads')">📥 Downloads</div>
+                    <div class="file-item" onclick="navigateToFolder('Pictures')">🖼️ Pictures</div>
+                    <div class="file-item" onclick="navigateToFolder('Music')">🎵 Music</div>
+                    <div class="file-item" onclick="navigateToFolder('Videos')">🎬 Videos</div>
+                </div>
+                <div class="file-main">
+                    <div id="fileGrid" class="file-grid">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="window" id="terminal" style="top: 150px; left: 150px; width: 600px; height: 400px;">
+        <div class="window-header">
+            <span>💻 Terminal</span>
+            <div class="window-controls">
+                <div class="window-control minimize" onclick="minimizeWindow('terminal')">−</div>
+                <div class="window-control maximize" onclick="maximizeWindow('terminal')">□</div>
+                <div class="window-control close" onclick="closeWindow('terminal')">×</div>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="terminal" id="terminalContent">
+                <div class="terminal-line">QuantumOS Terminal v1.0</div>
+                <div class="terminal-line">Type 'help' for available commands</div>
+                <div class="terminal-line">user@quantumos:~$ <input type="text" class="terminal-input"
+                        id="terminalInput" onkeypress="handleTerminalInput(event)"></div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="window" id="calculator" style="top: 200px; left: 200px; width: 300px; height: 400px;">
+        <div class="window-header">
+            <span>🔢 Calculator</span>
+            <div class="window-controls">
+                <div class="window-control minimize" onclick="minimizeWindow('calculator')">−</div>
+                <div class="window-control maximize" onclick="maximizeWindow('calculator')">□</div>
+                <div class="window-control close" onclick="closeWindow('calculator')">×</div>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="calc-display" id="calcDisplay">0</div>
+            <div class="calculator-grid">
+                <button class="calc-button" onclick="calcClear()">C</button>
+                <button class="calc-button" onclick="calcInput('/')" class="operator">÷</button>
+                <button class="calc-button" onclick="calcInput('*')" class="operator">×</button>
+                <button class="calc-button" onclick="calcBackspace()">⌫</button>
+
+                <button class="calc-button" onclick="calcInput('7')">7</button>
+                <button class="calc-button" onclick="calcInput('8')">8</button>
+                <button class="calc-button" onclick="calcInput('9')">9</button>
+                <button class="calc-button operator" onclick="calcInput('-')">−</button>
+
+                <button class="calc-button" onclick="calcInput('4')">4</button>
+                <button class="calc-button" onclick="calcInput('5')">5</button>
+                <button class="calc-button" onclick="calcInput('6')">6</button>
+                <button class="calc-button operator" onclick="calcInput('+')">+</button>
+
+                <button class="calc-button" onclick="calcInput('1')">1</button>
+                <button class="calc-button" onclick="calcInput('2')">2</button>
+                <button class="calc-button" onclick="calcInput('3')">3</button>
+                <button class="calc-button operator" onclick="calcEquals()" style="grid-row: span 2;">=</button>
+
+                <button class="calc-button" onclick="calcInput('0')" style="grid-column: span 2;">0</button>
+                <button class="calc-button" onclick="calcInput('.')">.</button>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="window" id="taskManager" style="top: 120px; left: 300px; width: 600px; height: 400px;">
+        <div class="window-header">
+            <span>📊 Task Manager</span>
+            <div class="window-controls">
+                <div class="window-control minimize" onclick="minimizeWindow('taskManager')">−</div>
+                <div class="window-control maximize" onclick="maximizeWindow('taskManager')">□</div>
+                <div class="window-control close" onclick="closeWindow('taskManager')">×</div>
+            </div>
+        </div>
+        <div class="window-content">
+            <h3>Running Processes</h3>
+            <div id="processList" style="margin-top: 20px;">
+                
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="window" id="settings" style="top: 180px; left: 250px; width: 500px; height: 400px;">
+        <div class="window-header">
+            <span>⚙️ Settings</span>
+            <div class="window-controls">
+                <div class="window-control minimize" onclick="minimizeWindow('settings')">−</div>
+                <div class="window-control maximize" onclick="maximizeWindow('settings')">□</div>
+                <div class="window-control close" onclick="closeWindow('settings')">×</div>
+            </div>
+        </div>
+        <div class="window-content">
+            <h3>System Settings</h3>
+            <div style="margin-top: 20px;">
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 5px;">Desktop Background:</label>
+                    <select onchange="changeWallpaper(this.value)"
+                        style="padding: 5px; border-radius: 4px; border: 1px solid #ccc;">
+                        <option value="default">Default Gradient</option>
+                        <option value="blue">Blue Theme</option>
+                        <option value="green">Green Theme</option>
+                        <option value="purple">Purple Theme</option>
+                    </select>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 5px;">System Volume:</label>
+                    <input type="range" min="0" max="100" value="50" style="width: 200px;">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 5px;">Screen Brightness:</label>
+                    <input type="range" min="10" max="100" value="80" style="width: 200px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+    <div class="context-menu" id="contextMenu">
+        <div class="context-menu-item" onclick="showNotification('Refresh completed', 'success')">Refresh</div>
+        <div class="context-menu-item" onclick="openWindow('settings')">Settings</div>
+        <div class="context-menu-item" onclick="showNotification('New folder created', 'info')">New Folder</div>
+        <div class="context-menu-item" onclick="showNotification('Properties opened', 'info')">Properties</div>
+    </div>
+
+   
+    <div class="notification" id="notification"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
